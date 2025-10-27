@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения! [ACCESS GRANTED]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================= */
+        /* 1. ФУТУРИСТИЧЕСКАЯ БАЗА */
+        /* ================================================= */
+        :root {
+            --neon-blue: #00e0ff;
+            --neon-pink: #ff00c6;
+            --dark-bg: #0f1d2e;
+            --text-light: #e0faff;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto Mono', monospace; 
+            background: var(--dark-bg);
+            background-image: radial-gradient(circle at top right, rgba(0, 224, 255, 0.1), transparent 50%), 
+                              radial-gradient(circle at bottom left, rgba(255, 0, 198, 0.1), transparent 50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text-light);
+        }
+
+        /* ================================================= */
+        /* 2. ЗАГОЛОВОК И АНИМАЦИИ */
+        /* ================================================= */
+        h1 {
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 3rem;
+            margin: 20px 0 50px;
+            color: var(--neon-blue);
+            letter-spacing: 5px;
+            font-weight: 600;
+            text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+            animation: fadeDown 1.5s ease forwards;
+            position: relative;
+            text-align: center;
+        }
+
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(var(--angle)); }
+            50% { transform: translateY(-10px) rotate(calc(var(--angle) + 2deg)); }
+        }
+
+        .collage {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            width: 100%;
+            /* Увеличена максимальная ширина коллажа для размещения больших фото друзей */
+            max-width: 1600px; 
+        }
+
+        /* ================================================= */
+        /* 3. ФОТОГРАФИИ (Глассморфизм) */
+        /* ================================================= */
+
+        /* Центральное фото (Именинник) - ВОЗВРАТ К СРЕДНЕМУ РАЗМЕРУ */
+        .center {
+            width: 260px; 
+            height: 260px; 
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--glass-bg); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px);
+            
+            border: 1px solid rgba(0, 224, 255, 0.5); 
+            box-shadow: 0 0 15px rgba(0, 224, 255, 0.4), 0 0 40px rgba(0, 0, 0, 0.5);
+            
+            animation: fadeIn 2s ease forwards;
+            z-index: 3;
+            transform: rotateX(5deg) scale(1);
+            transition: transform 0.5s;
+        }
+        
+        .center:hover {
+             transform: rotateX(0deg) scale(1.05);
+        }
+
+        .center img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        /* Ряды фотографий */
+        .row {
+            display: flex;
+            justify-content: center;
+            /* Увеличено расстояние между фото */
+            gap: 35px; 
+            margin: 0;
+            position: relative;
+            width: 100%;
+            max-width: 1500px; 
+        }
+
+        .row.top {
+            /* Уменьшен отрицательный отступ */
+            margin-bottom: -10px; 
+            z-index: 2;
+            padding: 0 50px; /* Отступы по бокам для фото */
+        }
+
+        .row.bottom {
+            /* Уменьшен отрицательный отступ */
+            margin-top: -10px; 
+            z-index: 2;
+            padding: 0 50px; /* Отступы по бокам для фото */
+        }
+
+        /* Фотографии друзей - УВЕЛИЧЕННЫЙ РАЗМЕР */
+        .photo {
+            width: 180px; 
+            height: 180px; 
+            border-radius: 6px; 
+            overflow: hidden;
+            
+            background: var(--glass-bg); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            
+            transform: rotate(var(--angle)) translateY(0) translateZ(0);
+            animation: float 6s ease-in-out infinite;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+        }
+
+        .photo:nth-child(even) {
+            animation-delay: 3s;
+        }
+
+        .photo:hover {
+            box-shadow: 0 0 15px var(--neon-pink), 0 0 30px rgba(255, 0, 198, 0.6);
+            border-color: var(--neon-pink);
+            transform: rotate(var(--angle)) translateY(-15px) translateZ(50px) scale(1.1);
+            z-index: 10;
+        }
+
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        /* ================================================= */
+        /* 4. ФУТЕР И АДАПТИВНОСТЬ */
+        /* ================================================= */
+        footer {
+            margin-top: 60px;
+            font-size: 1rem;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 800px;
+            opacity: 0;
+            animation: fadeIn 2.5s ease 1.5s forwards;
+            padding: 15px;
+            border-top: 1px solid rgba(0, 224, 255, 0.2);
+        }
+
+        footer strong {
+            color: var(--neon-pink);
+            text-shadow: 0 0 5px var(--neon-pink);
+            font-weight: 700;
+        }
+        
+        .protocol {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 1400px) { /* Адаптация для очень больших экранов */
+            .photo { width: 160px; height: 160px; }
+            .center { width: 260px; height: 260px; }
+        }
+
+        @media (max-width: 1200px) { /* Адаптация для больших планшетов/ноутбуков */
+            .row { gap: 20px; padding: 0 40px;}
+            .photo { width: 140px; height: 140px; }
+            .center { width: 220px; height: 220px; }
+            h1 { font-size: 2.8rem; }
+            .row.top, .row.bottom { margin-bottom: -15px; margin-top: -15px; }
+        }
+
+        @media (max-width: 992px) { /* Адаптация для средних планшетов */
+            .row { gap: 15px; padding: 0 20px;}
+            .photo { width: 110px; height: 110px; }
+            .center { width: 180px; height: 180px; }
+            h1 { font-size: 2.2rem; }
+            .row.top, .row.bottom { margin-bottom: -10px; margin-top: -10px; }
+        }
+
+        @media (max-width: 768px) { /* Адаптация для мобильных */
+            h1 { font-size: 2em; letter-spacing: 2px; margin-bottom: 25px;}
+            h1::after { font-size: 0.3em; }
+            .collage { max-width: 100%; padding: 0 10px; }
+            .row { flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0;}
+            .photo { width: 80px; height: 80px; border-radius: 4px; }
+            .center { width: 150px; height: 150px; border-radius: 8px; }
+            .row.top { margin-bottom: -10px; }
+            .row.bottom { margin-top: -10px; }
+            footer { font-size: 0.8em; margin-top: 30px;}
+        }
+    </style>
+</head>
+<body>
+
+    <h1>С ДНЁМ РОЖДЕНИЯ!</h1>
+
+    <div class="collage">
+
+        <div class="row top">
+            <div class="photo" style="--angle:-5deg"><img src="С.png" alt="С"></div>
+            <div class="photo" style="--angle:-3deg"><img src="Д.png" alt="Д"></div>
+            <div class="photo" style="--angle:1deg"><img src="Н.png" alt="Н"></div>
+            <div class="photo" style="--angle:4deg"><img src="Е.png" alt="Ё"></div>
+            <div class="photo" style="--angle:-2deg"><img src="М.png" alt="М"></div>
+        </div>
+
+        <div class="center">
+            <img src="central_person.png" alt="Именинник">
+        </div>
+
+        <div class="row bottom">
+            <div class="photo" style="--angle:2deg"><img src="Р.png" alt="Р"></div>
+            <div class="photo" style="--angle:-2deg"><img src="О.png" alt="О"></div>
+            <div class="photo" style="--angle:3deg"><img src="Ж.png" alt="Ж"></div>
+            <div class="photo" style="--angle:-4deg"><img src="Д2.png" alt="Д"></div>
+            <div class="photo" style="--angle:2deg"><img src="Е2.png" alt="Е"></div>
+            <div class="photo" style="--angle:-3deg"><img src="Н2.png" alt="Н"></div>
+            <div class="photo" style="--angle:1deg"><img src="И.png" alt="И"></div>
+            <div class="photo" style="--angle:-1deg"><img src="Я.png" alt="Я"></div>
+        </div>
+    </div>
+
+    <footer>
+        <strong>Дима</strong>, с праздником! 🎉 
+        <span class="protocol">Мы тебя очень ценим 💙</span>
+    </footer>
+</body>
+</html>
